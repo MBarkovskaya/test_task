@@ -1,0 +1,29 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile 'org.seleniumhq.selenium:selenium-java:3.4.0'
+    compile 'ru.stqa.selenium:webdriver-factory:4.0'
+    compile 'info.cukes:cucumber-java:1.2.5'
+    compile 'info.cukes:cucumber-junit:1.2.5'
+}
+
+test {
+    
+    if (project.hasProperty('browser')) {
+        systemProperty 'browser', "${browser}"
+    }
+    if (project.hasProperty('platform')) {
+        systemProperty 'platform', "${platform}"
+    }
+    if (project.hasProperty('target')) {
+        systemProperty 'target', "${target}"
+    }
+}
