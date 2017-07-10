@@ -17,5 +17,5 @@ Feature: account
     Then user's enter was unsuccessful, the page contain messageEn <messageEn> or messageRu <messageRu>
 
     Examples:
-      | password                 | email                              | gmailButton | messageEn        | messageRu      |
-      | petrsidorovextraordinary | extraordinarypetrsidorov@gmail.com | Gmail       | Forgot password? | Забыли пароль? |
+      | password                 | email                              | messageEn        | messageRu      |
+      | petrsidorovextraordinary | extraordinarypetrsidorov@gmail.com | Forgot password? | Забыли пароль? |

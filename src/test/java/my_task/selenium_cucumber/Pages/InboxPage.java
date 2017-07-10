@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -120,7 +121,7 @@ public class InboxPage extends Page {
         WebElement tablesFirstEmail = listTableEmails.get(0).findElements(By.cssSelector("tr")).get(0);
         tablesFirstEmail.click();
         WebElement sentEmailSubject = wait.until(visibilityOfElementLocated(By.cssSelector("h2.hP")));
-        return  sentEmailSubject.getAttribute("textContent");
+        return sentEmailSubject.getAttribute("textContent");
     }
 
 
@@ -140,8 +141,31 @@ public class InboxPage extends Page {
         }
     }
 
+    public void chooseDefoltSortInbox() {
+        Actions actions = new Actions(driver);
+        actions.moveToElement(driver.findElement(By.cssSelector(("span.nU.n1"))))
+                .moveToElement(driver.findElement(By.cssSelector("img.afM"))).click()
+                .sendKeys(Keys.DOWN, Keys.ENTER).click().build().perform();
+
+    }
+
+    public void chooseSortUnreadFirstEmai() {
+        Actions actions = new Actions(driver);
+        actions.moveToElement(driver.findElement(By.cssSelector(("span.nU.n1"))))
+                .moveToElement(driver.findElement(By.cssSelector("img.afM"))).click()
+                .sendKeys(Keys.DOWN, Keys.DOWN, Keys.DOWN, Keys.ENTER).build().perform();
+    }
+
+    public void verifyDateList() {
+        List<WebElement> tableList = driver.findElements(By.cssSelector("div.Cp tbody"));
+        WebElement tableEmail = tableList.get(1);
+        List<WebElement> cells = tableEmail.findElements(By.cssSelector("tr.zA.yO"));
+        for (WebElement date : cells) {
+            String dataText = driver.findElement(By.cssSelector("td.xW.xY span")).getAttribute("textContent");
+//            if() {
+
+        }
+    }
 }
 
 
-//    $("a[href='https://mail.google.com/mail/u/0/?shva=1&zx=hz60tsku5x5g#inbox']") inbox
-//    $("img.afM") кнопка
