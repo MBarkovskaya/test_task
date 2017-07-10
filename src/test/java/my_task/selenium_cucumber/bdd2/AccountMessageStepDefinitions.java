@@ -14,10 +14,11 @@ import ru.stqa.selenium.factory.WebDriverPool;
 public class AccountMessageStepDefinitions {
     private ApplicationManager app;
     private String sentSubjectName, subjectName;
+    private String error, errorExpl;
 
     @Before
     public void init() {
-        app = new ApplicationManager(System.getProperty("browser", BrowserType.FIREFOX));
+        app = new ApplicationManager(System.getProperty("browser", BrowserType.CHROME));
         app.init();
     }
 
@@ -37,9 +38,9 @@ public class AccountMessageStepDefinitions {
 
     @When("^I send new email to (.+)$")
     public void sendEmail(String recipient) {
-        app.inboxPage().openVirtualKeyboard();
         app.inboxPage().composeEmail.click();
         app.inboxPage().typeRecipient(recipient);
+        app.inboxPage().openVirtualKeyboard();
         long now = System.currentTimeMillis();
         String timeMillis = String.valueOf(now);
         subjectName = app.inboxPage().typeSubject(timeMillis);
@@ -54,18 +55,27 @@ public class AccountMessageStepDefinitions {
         Assert.assertEquals(sentSubjectName, subjectName);
     }
 
-    @When("^I send new letter to (.+)$")
-    public void sendLetterWrong(String recipient) {
-
+    @When("^I send new email with unrecognized recipient (.+)$")
+    public void sendEmailWithUnrecognisedRecipient(String recipient) {
+        app.inboxPage().composeEmail.click();
+        app.inboxPage().typeUnrecRecipient(recipient);
+        app.inboxPage().openVirtualKeyboard();
+        long now = System.currentTimeMillis();
+        String timeMillis = String.valueOf(now);
+        app.inboxPage().typeSubject(timeMillis);
+        app.inboxPage().typeMessage();
+        error = app.inboxPage().sendEmailWithUnrecRecepient();
     }
 
-    @Then("^I get a message (.+)$")
-    public void verifyWrongLetter(String message) {
-
+    @Then("^I get an enMessage (.+) or ruMessage (.+) about error$")
+    public void verifyUnrecognisedRecipient(String enMessage, String ruMessage) {
+        Assert.assertTrue(enMessage.equals(error) ^ ruMessage.equals(error));
     }
 
     @After
     public static void stopAllBrowsers() {
         WebDriverPool.DEFAULT.dismissAll();
     }
+
+
 }

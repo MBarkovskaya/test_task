@@ -12,11 +12,9 @@ Feature: send email
       | improvementisalways@gmail.com |
 
 
-#  Scenario Outline: send new letter with wrong email
-#    When I send new email to <recipient>
-#    Then I get a message <message>
-#    Examples:
-#      | recipient | message |
-#      | to me     | Ошибка  |
-
-
+  Scenario Outline: send new letter with wrong email
+    When I send new email with unrecognized recipient <recipient>
+    Then I get an enMessage <enMessage> or ruMessage <ruMessage> about error
+    Examples:
+      | recipient | enMessage | ruMessage |
+      | me        | Error     | Ошибка    |

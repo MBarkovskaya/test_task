@@ -1,16 +1,16 @@
 package my_task.selenium_cucumber.Pages;
 
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfAllElementsLocatedBy;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
@@ -37,6 +37,22 @@ public class InboxPage extends Page {
 
     public void sendEmail() {
         wait.until(visibilityOfElementLocated(By.xpath(".//td[@class='gU Up']"))).click();
+    }
+
+    public String sendEmailWithUnrecRecepient() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        wait.until(visibilityOfElementLocated(By.xpath(".//td[@class='gU Up']"))).click();
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        WebElement error = wait.until(visibilityOfElementLocated(By.cssSelector("div.Kj-JD span.Kj-JD-K7-K0")));
+        return error.getAttribute("textContent");
     }
 
     public void typeRecipient(String recipient) {
@@ -75,11 +91,10 @@ public class InboxPage extends Page {
 
     public void typeMessage() {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(2000);
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
-//        driver.findElement(By.cssSelector("table.iN div.gmail_default")).click();
         Actions actions = new Actions(driver);
         actions.moveToElement(driver.findElement(By.cssSelector("button#K84"))).click()
                 .moveToElement(driver.findElement(By.cssSelector("button#K69"))).click()
@@ -88,7 +103,7 @@ public class InboxPage extends Page {
     }
 
     public void openVirtualKeyboard() {
-        driver.findElement(By.cssSelector("#itamenu a.d-Na-JX-I.d-Na-M7-JX.d-Na-axY.d-Na-Gs")).click();
+        wait.until(visibilityOfElementLocated(By.cssSelector("#itamenu a.d-Na-JX-I.d-Na-M7-JX.d-Na-axY.d-Na-Gs"))).click();
     }
 
     public void closeVirtualKeyboard() {
@@ -104,9 +119,26 @@ public class InboxPage extends Page {
                 wait.until(presenceOfAllElementsLocatedBy(By.cssSelector("div.BltHke.nH.oy8Mbf div.Cp:first-child table")));
         WebElement tablesFirstEmail = listTableEmails.get(0).findElements(By.cssSelector("tr")).get(0);
         tablesFirstEmail.click();
-        return driver.findElement(By.cssSelector("h2.hP")).getAttribute("textContent");
+        WebElement sentEmailSubject = wait.until(visibilityOfElementLocated(By.cssSelector("h2.hP")));
+        return  sentEmailSubject.getAttribute("textContent");
     }
 
+
+    public void typeUnrecRecipient(String recipient) {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        try {
+            WebElement element = wait.until((WebDriver d) -> d.findElement(By.name("to")));
+            Assert.assertNotNull(element);
+            element.click();
+            element.sendKeys(recipient, Keys.ENTER, Keys.TAB, Keys.TAB, Keys.TAB);
+        } catch (Exception e) {
+            Assert.fail("Unable to locate element");
+        }
+    }
 
 }
 
