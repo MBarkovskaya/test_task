@@ -6,6 +6,6 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(features = "classpath:bdd3", plugin = {"pretty", "json:build/cucumber-report/cucumber.json",
-        "html:build/cucumber-report/cucumber.html"})
+        "html:build/cucumber-report/bdd3/cucumber.html"})
 public class InboxSortRunner {
 }

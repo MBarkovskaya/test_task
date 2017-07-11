@@ -55,10 +55,10 @@ public class AccountStepDefinitions {
         assertThat(gmailButton, equalTo(accountButton));
     }
 
-    @Then("^user's enter was unsuccessful, the page contain messageEn (.+) or messageRu (.+)$")
-    public void verifyAccountIncorrectLogin(String messageEn, String messageRu) {
+    @Then("^user's enter was unsuccessful, the page contain message (.+)$")
+    public void verifyAccountIncorrectLogin(String message) {
         String questionText = app.gmailPage().googleMessage();
-        Assert.assertTrue((messageEn.equals(questionText)) ^ (messageRu.equals(questionText)));
+        Assert.assertTrue(message.equals(questionText));
     }
 
     @After

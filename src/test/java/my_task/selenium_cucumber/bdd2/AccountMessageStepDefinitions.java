@@ -14,7 +14,7 @@ import ru.stqa.selenium.factory.WebDriverPool;
 public class AccountMessageStepDefinitions {
     private ApplicationManager app;
     private String sentSubjectName, subjectName;
-    private String error, errorExpl;
+    private String error;
 
     @Before
     public void init() {
@@ -58,7 +58,7 @@ public class AccountMessageStepDefinitions {
     @When("^I send new email with unrecognized recipient (.+)$")
     public void sendEmailWithUnrecognisedRecipient(String recipient) {
         app.inboxPage().composeEmail.click();
-        app.inboxPage().typeUnrecRecipient(recipient);
+        app.inboxPage().typeRecipient(recipient);
         app.inboxPage().openVirtualKeyboard();
         long now = System.currentTimeMillis();
         String timeMillis = String.valueOf(now);
@@ -67,9 +67,9 @@ public class AccountMessageStepDefinitions {
         error = app.inboxPage().sendEmailWithUnrecRecepient();
     }
 
-    @Then("^I get an enMessage (.+) or ruMessage (.+) about error$")
-    public void verifyUnrecognisedRecipient(String enMessage, String ruMessage) {
-        Assert.assertTrue(enMessage.equals(error) ^ ruMessage.equals(error));
+    @Then("^I get an message (.+) about error$")
+    public void verifyUnrecognisedRecipient(String message) {
+        Assert.assertTrue(message.equals(error));
     }
 
     @After

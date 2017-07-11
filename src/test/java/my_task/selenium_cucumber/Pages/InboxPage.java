@@ -10,20 +10,17 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalAccessor;
 import java.util.List;
+import java.util.Locale;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfAllElementsLocatedBy;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 public class InboxPage extends Page {
 
-    private DateTimeFormatter sdf;
+    private DateTimeFormatter sdf = DateTimeFormatter.ofPattern("EEE, MMM d, yyyy 'at' h:mm a", Locale.US);;
 
     public InboxPage(WebDriver driver) {
         super(driver);
@@ -49,27 +46,18 @@ public class InboxPage extends Page {
     }
 
     public String sendEmailWithUnrecRecepient() {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
+        Actions actions = new Actions(driver);
+        actions.pause(Duration.ofMillis(2000)).perform();
         wait.until(visibilityOfElementLocated(By.xpath(".//td[@class='gU Up']"))).click();
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
+        actions.pause(Duration.ofMillis(2000)).perform();
+
         WebElement error = wait.until(visibilityOfElementLocated(By.cssSelector("div.Kj-JD span.Kj-JD-K7-K0")));
         return error.getAttribute("textContent");
     }
 
     public void typeRecipient(String recipient) {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
+        Actions actions = new Actions(driver);
+        actions.pause(Duration.ofMillis(2000)).perform();
 
         try {
             WebElement element = wait.until((WebDriver d) -> d.findElement(By.name("to")));
@@ -82,13 +70,9 @@ public class InboxPage extends Page {
     }
 
     public String typeSubject(String timeMillis) {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
-        driver.findElement(By.name("subjectbox")).click();
         Actions actions = new Actions(driver);
+        actions.pause(Duration.ofMillis(2000)).perform();
+        driver.findElement(By.name("subjectbox")).click();
         actions.pause(Duration.ofMillis(100)).moveToElement(driver.findElement(By.cssSelector("button#K84"))).click()
                 .moveToElement(driver.findElement(By.cssSelector("button#K69"))).click()
                 .moveToElement(driver.findElement(By.cssSelector("button#K83"))).click()
@@ -98,9 +82,9 @@ public class InboxPage extends Page {
         return "test" + timeMillis;
     }
 
-    public void typeMessage() throws InterruptedException {
-        Thread.sleep(2000);
+    public void typeMessage() {
         Actions actions = new Actions(driver);
+        actions.pause(Duration.ofMillis(2000)).perform();
         actions.moveToElement(driver.findElement(By.cssSelector("button#K84"))).click()
                 .moveToElement(driver.findElement(By.cssSelector("button#K69"))).click()
                 .moveToElement(driver.findElement(By.cssSelector("button#K83"))).click()
@@ -128,28 +112,12 @@ public class InboxPage extends Page {
         return sentEmailSubject.getAttribute("textContent");
     }
 
-
-    public void typeUnrecRecipient(String recipient) {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
-        try {
-            WebElement element = wait.until((WebDriver d) -> d.findElement(By.name("to")));
-            Assert.assertNotNull(element);
-            element.click();
-            element.sendKeys(recipient, Keys.ENTER, Keys.TAB, Keys.TAB, Keys.TAB);
-        } catch (Exception e) {
-            Assert.fail("Unable to locate element");
-        }
-    }
-
     public void chooseDefoltSortInbox() {
         Actions actions = new Actions(driver);
         actions.moveToElement(driver.findElement(By.cssSelector(("span.nU.n1"))))
-                .moveToElement(driver.findElement(By.cssSelector("img.afM"))).click().sendKeys(Keys.DOWN, Keys.ENTER).click().build()
-                .perform();
+                .moveToElement(driver.findElement(By.cssSelector("img.afM"))).click().sendKeys(Keys.DOWN, Keys.ENTER)
+                .build().perform();
+        actions.pause(Duration.ofMillis(2000)).perform();
 
     }
 
@@ -158,38 +126,19 @@ public class InboxPage extends Page {
         actions.moveToElement(driver.findElement(By.cssSelector(("span.nU.n1"))))
                 .moveToElement(driver.findElement(By.cssSelector("img.afM"))).click().sendKeys(Keys.DOWN, Keys.DOWN, Keys.DOWN, Keys.ENTER)
                 .build().perform();
+        actions.pause(Duration.ofMillis(3000)).perform();
     }
 
-    public List<LocalDateTime> verifyDateList() {
-        List<WebElement> tableList = driver.findElements(By.cssSelector("div.Cp tbody"));
-        WebElement tableEmail = tableList.get(1);
-        List<WebElement> cells = tableEmail.findElements(By.cssSelector("tr.zA.yO"));
+    public List<LocalDateTime> dateList() {
+        WebElement tableList = driver.findElement(By.cssSelector("div.Cp tbody"));
+        List<WebElement> cells = tableList.findElements(By.cssSelector("tr.zA.yO"));
         List<LocalDateTime> result = Lists.newArrayList();
         for (WebElement date : cells) {
-            String dataText = driver.findElement(By.cssSelector("td.xW.xY span")).getAttribute("textContent");
-            result.add(LocalDateTime.parse(dataText, getFormatter()));
+            String dataText = date.findElement(By.cssSelector("td.xW.xY span")).getAttribute("title");
+            result.add(LocalDateTime.parse(dataText, sdf));
         }
 
         return result;
-    }
-
-    private DateTimeFormatter getFormatter() {
-        if (sdf == null) {
-            //<span title="10 July 2017 at 17:14" id=":3g" aria-label="10 July 2017 at 17:14"><b>10 Jul</b></span>
-            DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder();
-            sdf = builder
-                    .appendValue(ChronoField.DAY_OF_MONTH)
-                    .appendLiteral(' ')
-                    .appendValue(ChronoField.MONTH_OF_YEAR)
-                    .appendLiteral(' ')
-                    .appendValue(ChronoField.YEAR)
-                    .appendLiteral(" at ")
-                    .appendValue(ChronoField.HOUR_OF_DAY, 2)
-                    .appendLiteral(':')
-                    .appendValue(ChronoField.MINUTE_OF_HOUR, 2).toFormatter();
-        }
-
-        return sdf;
     }
 }
 
