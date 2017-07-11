@@ -2,7 +2,6 @@ package my_task.selenium_cucumber.appmanager;
 
 import my_task.selenium_cucumber.Pages.GmailPage;
 import my_task.selenium_cucumber.Pages.GooglePage;
-import my_task.selenium_cucumber.Pages.SentMailPage;
 import my_task.selenium_cucumber.Pages.InboxPage;
 import org.junit.Assert;
 import org.openqa.selenium.Platform;
@@ -30,8 +29,6 @@ public class ApplicationManager {
     private GooglePage googlePage;
     private GmailPage gmailPage;
     private InboxPage inboxPage;
-    private SentMailPage sentMailPage;
-
 
     public ApplicationManager(String browser) {
         this.browser = browser;
@@ -47,9 +44,6 @@ public class ApplicationManager {
     }
     public InboxPage inboxPage() {
         return inboxPage;
-    }
-    public SentMailPage sentMailPage() {
-        return sentMailPage;
     }
 
     public WebDriverWait createWait(int timeoutInSeconds) {
@@ -76,7 +70,7 @@ public class ApplicationManager {
                 case CHROME:
                     ChromeOptions options = new ChromeOptions();
                     options.setBinary("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe");
-//                    options.addArguments("start-maximized");
+                    options.addArguments("start-maximized");
                     DesiredCapabilities chromeCapabilities = DesiredCapabilities.chrome();
                     chromeCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
                     driver = WebDriverPool.DEFAULT.getDriver(chromeCapabilities);
@@ -96,7 +90,6 @@ public class ApplicationManager {
         googlePage = new GooglePage(driver);
         gmailPage = new GmailPage(driver);
         inboxPage = new InboxPage(driver);
-        sentMailPage = new SentMailPage(driver);
     }
 
     public String getProperty(String key) {

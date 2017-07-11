@@ -14,7 +14,7 @@ import ru.stqa.selenium.factory.WebDriverPool;
 public class InboxSortStepDefinitions {
 
     private ApplicationManager app;
-    int cnt, result;
+    private int cnt, result;
 
     @Before
     public void init() {
