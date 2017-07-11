@@ -2,6 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="test_task_improvement_main" target="1.8" />
+      <module name="test_task_improvement_test" target="1.8" />
       <module name="test_task_main" target="1.8" />
       <module name="test_task_test" target="1.8" />
     </bytecodeTargetLevel>

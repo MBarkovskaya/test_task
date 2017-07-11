@@ -3,6 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/test_task.iml" filepath="$PROJECT_DIR$/.idea/modules/test_task.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/test_task_improvement.iml" filepath="$PROJECT_DIR$/.idea/modules/test_task_improvement.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/test_task_improvement_main.iml" filepath="$PROJECT_DIR$/.idea/modules/test_task_improvement_main.iml" group="test_task_improvement" />
+      <module fileurl="file://D:\Mariya\test_task\.idea\modules\test_task_improvement_main.iml" filepath="D:\Mariya\test_task\.idea\modules\test_task_improvement_main.iml" group="test_task_improvement" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/test_task_improvement_test.iml" filepath="$PROJECT_DIR$/.idea/modules/test_task_improvement_test.iml" group="test_task_improvement" />
+      <module fileurl="file://D:\Mariya\test_task\.idea\modules\test_task_improvement_test.iml" filepath="D:\Mariya\test_task\.idea\modules\test_task_improvement_test.iml" group="test_task_improvement" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/test_task_main.iml" filepath="$PROJECT_DIR$/.idea/modules/test_task_main.iml" group="test_task" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/test_task_test.iml" filepath="$PROJECT_DIR$/.idea/modules/test_task_test.iml" group="test_task" />
     </modules>
