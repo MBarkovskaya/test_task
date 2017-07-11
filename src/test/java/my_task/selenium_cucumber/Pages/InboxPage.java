@@ -1,21 +1,29 @@
 package my_task.selenium_cucumber.Pages;
 
+import com.google.common.collect.Lists;
 import org.junit.Assert;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Select;
 
 import java.time.Duration;
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalAccessor;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfAllElementsLocatedBy;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 public class InboxPage extends Page {
+
+    private DateTimeFormatter sdf;
 
     public InboxPage(WebDriver driver) {
         super(driver);
@@ -84,18 +92,14 @@ public class InboxPage extends Page {
         actions.pause(Duration.ofMillis(100)).moveToElement(driver.findElement(By.cssSelector("button#K84"))).click()
                 .moveToElement(driver.findElement(By.cssSelector("button#K69"))).click()
                 .moveToElement(driver.findElement(By.cssSelector("button#K83"))).click()
-                .moveToElement(driver.findElement(By.cssSelector("button#K84"))).click()
-                .sendKeys(timeMillis).sendKeys(Keys.TAB).build().perform();
+                .moveToElement(driver.findElement(By.cssSelector("button#K84"))).click().sendKeys(timeMillis).sendKeys(Keys.TAB).build()
+                .perform();
 
         return "test" + timeMillis;
     }
 
-    public void typeMessage() {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
+    public void typeMessage() throws InterruptedException {
+        Thread.sleep(2000);
         Actions actions = new Actions(driver);
         actions.moveToElement(driver.findElement(By.cssSelector("button#K84"))).click()
                 .moveToElement(driver.findElement(By.cssSelector("button#K69"))).click()
@@ -144,27 +148,48 @@ public class InboxPage extends Page {
     public void chooseDefoltSortInbox() {
         Actions actions = new Actions(driver);
         actions.moveToElement(driver.findElement(By.cssSelector(("span.nU.n1"))))
-                .moveToElement(driver.findElement(By.cssSelector("img.afM"))).click()
-                .sendKeys(Keys.DOWN, Keys.ENTER).click().build().perform();
+                .moveToElement(driver.findElement(By.cssSelector("img.afM"))).click().sendKeys(Keys.DOWN, Keys.ENTER).click().build()
+                .perform();
 
     }
 
     public void chooseSortUnreadFirstEmai() {
         Actions actions = new Actions(driver);
         actions.moveToElement(driver.findElement(By.cssSelector(("span.nU.n1"))))
-                .moveToElement(driver.findElement(By.cssSelector("img.afM"))).click()
-                .sendKeys(Keys.DOWN, Keys.DOWN, Keys.DOWN, Keys.ENTER).build().perform();
+                .moveToElement(driver.findElement(By.cssSelector("img.afM"))).click().sendKeys(Keys.DOWN, Keys.DOWN, Keys.DOWN, Keys.ENTER)
+                .build().perform();
     }
 
-    public void verifyDateList() {
+    public List<LocalDateTime> verifyDateList() {
         List<WebElement> tableList = driver.findElements(By.cssSelector("div.Cp tbody"));
         WebElement tableEmail = tableList.get(1);
         List<WebElement> cells = tableEmail.findElements(By.cssSelector("tr.zA.yO"));
+        List<LocalDateTime> result = Lists.newArrayList();
         for (WebElement date : cells) {
             String dataText = driver.findElement(By.cssSelector("td.xW.xY span")).getAttribute("textContent");
-//            if() {
-
+            result.add(LocalDateTime.parse(dataText, getFormatter()));
         }
+
+        return result;
+    }
+
+    private DateTimeFormatter getFormatter() {
+        if (sdf == null) {
+            //<span title="10 July 2017 at 17:14" id=":3g" aria-label="10 July 2017 at 17:14"><b>10 Jul</b></span>
+            DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder();
+            sdf = builder
+                    .appendValue(ChronoField.DAY_OF_MONTH)
+                    .appendLiteral(' ')
+                    .appendValue(ChronoField.MONTH_OF_YEAR)
+                    .appendLiteral(' ')
+                    .appendValue(ChronoField.YEAR)
+                    .appendLiteral(" at ")
+                    .appendValue(ChronoField.HOUR_OF_DAY, 2)
+                    .appendLiteral(':')
+                    .appendValue(ChronoField.MINUTE_OF_HOUR, 2).toFormatter();
+        }
+
+        return sdf;
     }
 }
 
