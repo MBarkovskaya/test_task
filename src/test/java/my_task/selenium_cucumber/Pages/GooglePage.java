@@ -15,6 +15,7 @@ public class GooglePage extends Page {
     }
 
     public void chooseGmail() {
+        //We open link "Gmail"
         try {
             WebElement element = wait.until((WebDriver d) -> d.findElement(By.cssSelector("a[href='https://mail.google.com/mail/?tab=wm']")));
             Assert.assertNotNull(element);

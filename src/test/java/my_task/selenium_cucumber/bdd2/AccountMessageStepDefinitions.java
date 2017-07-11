@@ -43,15 +43,18 @@ public class AccountMessageStepDefinitions {
         app.inboxPage().openVirtualKeyboard();
         long now = System.currentTimeMillis();
         String timeMillis = String.valueOf(now);
+        //We have unique subject name "test" with parameter timeMillis
         subjectName = app.inboxPage().typeSubject(timeMillis);
         app.inboxPage().typeMessage();
         app.inboxPage().sendEmail();
         app.inboxPage().closeVirtualKeyboard();
+        //We get the email's subject name from the sent email
         sentSubjectName = app.inboxPage().sentMailSubject();
     }
 
     @Then("^the sent email's subject's name is equal to the entered email's subject's name$")
     public void verifySendLetter() {
+
         Assert.assertEquals(sentSubjectName, subjectName);
     }
 
@@ -64,11 +67,13 @@ public class AccountMessageStepDefinitions {
         String timeMillis = String.valueOf(now);
         app.inboxPage().typeSubject(timeMillis);
         app.inboxPage().typeMessage();
+        //We get the message's text about error
         error = app.inboxPage().sendEmailWithUnrecRecepient();
     }
 
     @Then("^I get an message (.+) about error$")
     public void verifyUnrecognisedRecipient(String message) {
+        //Verify that the messge's text contains word "Error"
         Assert.assertTrue(message.equals(error));
     }
 

@@ -14,7 +14,6 @@ import ru.stqa.selenium.factory.WebDriverPool;
 public class InboxSortStepDefinitions {
 
     private ApplicationManager app;
-    private int cnt, result;
 
     @Before
     public void init() {
@@ -48,9 +47,10 @@ public class InboxSortStepDefinitions {
 
     @Then("^the previous email's date more than next email's date$")
     public void verifyDateList() {
-        cnt = app.inboxPage().dateList().size();
+        //We get list of email's date and verify that the previous email's date more than next email's date
+        int cnt = app.inboxPage().dateList().size();
         for (int i = 0; i < cnt - 1; i++) {
-            result = app.inboxPage().dateList().get(i).compareTo(app.inboxPage().dateList().get(i + 1));
+            int result = app.inboxPage().dateList().get(i).compareTo(app.inboxPage().dateList().get(i + 1));
             Assert.assertTrue("the previous email's date must be more than next email's date", result > 0);
         }
     }

@@ -34,7 +34,7 @@ public class AccountStepDefinitions {
         app.googlePage().chooseGmail();
     }
 
-    @When("^I login witn email (.+), password (.+)$")
+    @When("^I log in witn email (.+), password (.+)$")
     public void loginAccount(String email, String password) {
         app.gmailPage().typeEmail(email);
         app.gmailPage().nextToPassword();
@@ -42,7 +42,7 @@ public class AccountStepDefinitions {
         app.gmailPage().nextToAccount();
     }
 
-    @When("^I login witn email (.+), incorrect password (.+)$")
+    @When("^I log in witn email (.+), incorrect password (.+)$")
     public void loginWithIncorrectPassword(String email, String password) {
         app.gmailPage().typeEmail(email);
         app.gmailPage().nextToPassword();
@@ -52,12 +52,14 @@ public class AccountStepDefinitions {
     @Then("^user's enter was successful, the page contains gmailButton (.+)$")
     public void verifyAccountLogin(String gmailButton) {
         String accountButton = app.inboxPage().usersAccount();
+        // Verify that the Gmail button is on the opened page
         assertThat(gmailButton, equalTo(accountButton));
     }
 
     @Then("^user's enter was unsuccessful, the page contain message (.+)$")
     public void verifyAccountIncorrectLogin(String message) {
         String questionText = app.gmailPage().googleMessage();
+        //Verify that after trying press button NEXT with incorrect password we"ll send Error message
         Assert.assertTrue(message.equals(questionText));
     }
 

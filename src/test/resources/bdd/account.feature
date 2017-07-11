@@ -3,7 +3,7 @@ Feature: account
   Scenario Outline: Account login
     Given I am on the Google search page
     And I choose Gmail
-    When I login witn email <email>, password <password>
+    When I log in witn email <email>, password <password>
     Then user's enter was successful, the page contains gmailButton <gmailButton>
 
     Examples:
@@ -13,7 +13,7 @@ Feature: account
   Scenario Outline: Account incorrect login
     Given I am on the Google search page
     And I choose Gmail
-    When I login witn email <email>, incorrect password <password>
+    When I log in witn email <email>, incorrect password <password>
     Then user's enter was unsuccessful, the page contain message <message>
 
     Examples:

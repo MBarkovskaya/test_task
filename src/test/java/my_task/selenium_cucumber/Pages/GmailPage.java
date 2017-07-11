@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
 public class GmailPage extends Page {
-    public WebElement buttonNext;
+    private WebElement buttonNext;
 
     public GmailPage(WebDriver driver) {
         super(driver);

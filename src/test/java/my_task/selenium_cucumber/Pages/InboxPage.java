@@ -26,10 +26,12 @@ public class InboxPage extends Page {
         super(driver);
     }
 
+    //Find Compose button
     @FindBy(css = "div.T-I.J-J5-Ji.T-I-KE.L3")
     public WebElement composeEmail;
 
     public String usersAccount() {
+        //We're getting name of Gmail button on the page
         String textContent = "";
         try {
             WebElement element = wait.until((WebDriver d) -> d.findElement(By.cssSelector("div.akh.J-J5-Ji.J-JN-I")));
@@ -50,7 +52,7 @@ public class InboxPage extends Page {
         actions.pause(Duration.ofMillis(2000)).perform();
         wait.until(visibilityOfElementLocated(By.xpath(".//td[@class='gU Up']"))).click();
         actions.pause(Duration.ofMillis(2000)).perform();
-
+        //We're getting text of error message
         WebElement error = wait.until(visibilityOfElementLocated(By.cssSelector("div.Kj-JD span.Kj-JD-K7-K0")));
         return error.getAttribute("textContent");
     }
@@ -100,7 +102,8 @@ public class InboxPage extends Page {
     }
 
     public String sentMailSubject() {
-        // new comment
+        // The listTableEmails contains two table into tree DOM HTML.
+        // We need to use the First listTableEmails with managed cursor
         Actions actions = new Actions(driver);
         actions.moveToElement(driver.findElement(By.cssSelector("span.nU a.J-Ke"))).sendKeys(Keys.LEFT, Keys.DOWN, Keys.DOWN, Keys.ENTER)
                 .release().perform();
@@ -108,6 +111,7 @@ public class InboxPage extends Page {
                 wait.until(presenceOfAllElementsLocatedBy(By.cssSelector("div.BltHke.nH.oy8Mbf div.Cp:first-child table")));
         WebElement tablesFirstEmail = listTableEmails.get(0).findElements(By.cssSelector("tr")).get(0);
         tablesFirstEmail.click();
+        //We're getting the name of sent email.
         WebElement sentEmailSubject = wait.until(visibilityOfElementLocated(By.cssSelector("h2.hP")));
         return sentEmailSubject.getAttribute("textContent");
     }
@@ -133,6 +137,7 @@ public class InboxPage extends Page {
         WebElement tableList = driver.findElement(By.cssSelector("div.Cp tbody"));
         List<WebElement> cells = tableList.findElements(By.cssSelector("tr.zA.yO"));
         List<LocalDateTime> result = Lists.newArrayList();
+        //We're getting the cell with email's date
         for (WebElement date : cells) {
             String dataText = date.findElement(By.cssSelector("td.xW.xY span")).getAttribute("title");
             result.add(LocalDateTime.parse(dataText, sdf));
