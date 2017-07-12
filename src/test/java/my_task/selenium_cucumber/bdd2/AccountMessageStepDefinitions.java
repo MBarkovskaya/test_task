@@ -71,10 +71,10 @@ public class AccountMessageStepDefinitions {
         error = app.inboxPage().sendEmailWithUnrecRecepient();
     }
 
-    @Then("^I get an message (.+) about error$")
-    public void verifyUnrecognisedRecipient(String message) {
+    @Then("^I get an messageEn (.+) or messageRu (.+) about error$")
+    public void verifyUnrecognisedRecipient(String messageEn, String messageRu) {
         //Verify that the messge's text contains word "Error"
-        Assert.assertTrue(message.equals(error));
+        Assert.assertTrue(messageEn.equals(error) ^ messageRu.equals(error));
     }
 
     @After

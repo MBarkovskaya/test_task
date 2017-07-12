@@ -14,8 +14,8 @@ Feature: account
     Given I am on the Google search page
     And I choose Gmail
     When I log in witn email <email>, incorrect password <password>
-    Then user's enter was unsuccessful, the page contain message <message>
+    Then user's enter was unsuccessful, the page contain messageEn <messageEn> or messageRu <messageRu>
 
     Examples:
-      | password                 | email                              | message          |
-      | petrsidorovextraordinary | extraordinarypetrsidorov@gmail.com | Forgot password? |
+      | password                 | email                              | messageEn        | messageRu      |
+      | petrsidorovextraordinary | extraordinarypetrsidorov@gmail.com | Forgot password? | Забыли пароль? |

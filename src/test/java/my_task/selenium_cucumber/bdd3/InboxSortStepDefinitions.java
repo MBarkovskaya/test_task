@@ -17,7 +17,7 @@ public class InboxSortStepDefinitions {
 
     @Before
     public void init() {
-        app = new ApplicationManager(System.getProperty("browser", BrowserType.FIREFOX));
+        app = new ApplicationManager(System.getProperty("browser", BrowserType.CHROME));
         app.init();
     }
 

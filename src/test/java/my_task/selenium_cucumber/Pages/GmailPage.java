@@ -4,6 +4,9 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+
+import java.time.Duration;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
@@ -50,6 +53,8 @@ public class GmailPage extends Page {
     }
 
     public String googleMessage() {
+        Actions actions = new Actions(driver);
+        actions.pause(Duration.ofMillis(4000));
         return wait.until(presenceOfElementLocated(By.cssSelector("div.IMH1vc.lUHSR"))).getAttribute("textContent");
     }
 }

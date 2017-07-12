@@ -63,6 +63,7 @@ public class ApplicationManager {
                 case FIREFOX:
                     FirefoxOptions firefoxOptions = new FirefoxOptions();
                     firefoxOptions.setLegacy(false);
+                    firefoxOptions.setBinary("c:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe");
                     DesiredCapabilities firefoxCaps = DesiredCapabilities.firefox();
                     firefoxCaps.setCapability(FirefoxOptions.FIREFOX_OPTIONS, firefoxOptions);
                     driver = WebDriverPool.DEFAULT.getDriver(firefoxCaps);

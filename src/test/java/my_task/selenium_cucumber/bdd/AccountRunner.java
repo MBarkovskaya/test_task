@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(features = "src/test/resources/bdd/account.feature",
-        plugin = {"pretty", "json:build/cucumber-report/cucumber.json", "html:build/cucumber-report/cucumber.html"})
+        plugin = {"pretty", "json:build/cucumber-report/bdd/cucumber.json", "html:build/cucumber-report/cucumber.html"})
 
 public class AccountRunner {
 }

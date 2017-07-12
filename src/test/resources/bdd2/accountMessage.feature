@@ -14,7 +14,7 @@ Feature: send email
 
   Scenario Outline: send new letter with wrong email
     When I send new email with unrecognized recipient <recipient>
-    Then I get an message <message> about error
+    Then I get an messageEn <messageEn> or messageRu <messageRu> about error
     Examples:
-      | recipient | message |
-      | me        | Error   |
+      | recipient | messageEn | messageRu |
+      | me        | Error     | Ошибка    |
