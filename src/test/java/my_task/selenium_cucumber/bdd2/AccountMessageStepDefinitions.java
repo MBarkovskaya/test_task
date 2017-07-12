@@ -30,9 +30,9 @@ public class AccountMessageStepDefinitions {
 
     @And("^I enter user's login (.+), password (.+)$")
     public void loginAccount(String login, String password) {
-        app.gmailPage().typeEmail("extraordinarypetrsidorov@gmail.com");
+        app.gmailPage().typeEmail(login);
         app.gmailPage().nextToPassword();
-        app.gmailPage().typePassword("petrsidorovextraordinary1974");
+        app.gmailPage().typePassword(password);
         app.gmailPage().nextToAccount();
     }
 
